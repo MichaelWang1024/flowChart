@@ -5,14 +5,13 @@
 <meta name="description" content="Interactive flowchart diagram implemented by GoJS in JavaScript for HTML." />
 <!-- Copyright 1998-2017 by Northwoods Software Corporation. -->
 <meta charset="UTF-8">
- <link href="css/mui.min.css" rel="stylesheet"/>
+
 </head>
 <body >
 <div id="sample">
   <div style="width:100%; white-space:nowrap;">
     <span style="display: inline-block;position: relative;  width:130px; z-index: 10;">
-      <div id="myPaletteDiv" style="border: solid 1px gray; height: 300px">
-      </div>
+      <div id="myPaletteDiv" style="border: solid 1px gray; height: 300px"></div>
     </span>
 
     <span style="display: inline-block; vertical-align: top; padding: 5px; width:80%">
@@ -20,46 +19,29 @@
     </span>
   </div>
 
+  <p>Click the button below to render the current GoJS Diagram into SVG at one-half scale.
+     The SVG is not interactive like the GoJS diagram, but can be used for printing or display.
+     For more information, see the page on <a href="../intro/makingSVG.html">making SVG</a>.</p>
+  <button onclick="makeSVG()">Render as SVG</button>
+  <div id="SVGArea"></div>
 </div>
 </body>
 <script src="js/go.js"></script>
 <script src="js/jquery-2.0.2.min.js"></script>
 <script >
 	var showFlag=true;
-	var isShowFlag=false;
 	$(document).ready(function() {
 		init();
-		$("#myPaletteDiv").hide();
-		$("#myPaletteDiv").append("<span id='hideIcon' style='position: absolute;right:0px;z-index: 5;' class='mui-icon mui-icon-closeempty'></span>");
-		$('#myDiagramDiv').click(function(ev){ 
-			var c=$("canvas")[1];
-		var ctx=c.getContext("2d");
-		ctx.moveTo(150,0);
-		ctx.lineTo(150,150);
-		ctx.stroke();
-			 if(!isShowFlag){
-				 if(showFlag){
-					 	var oEvent=ev||event;
-					  $("#myPaletteDiv").css({top:oEvent.clientY+'px',left:oEvent.clientX+'px'});
-					 	$("#myPaletteDiv").show();
-					 	isShowFlag=true;
-				 }
+		//$("#myPaletteDiv").hide();
+		/*$('#myDiagramDiv').click(function(ev){ 
+			 if(showFlag){
+			 	var oEvent=ev||event;
+			  $("#myPaletteDiv").css({top:oEvent.clientY+'px',left:oEvent.clientX+'px'});
+			 	$("#myPaletteDiv").show();
 			 }
 			 //alert(oEvent.clientY+"，"+oEvent.clientX);
-		});
-		$("#hideIcon").click(function(){
-			 	$("#myPaletteDiv").hide();
-			 	isShowFlag=false;
-		});
-		
-		var c=$("canvas")[1];
-		var ctx=c.getContext("2d");
-		ctx.moveTo(150,0);
-		ctx.lineTo(150,150);
-		ctx.stroke();
-		
+		});*/
 	})
-	
 	
 	/*window.onload=function(){
 	    document.onmousedown=function(ev){
