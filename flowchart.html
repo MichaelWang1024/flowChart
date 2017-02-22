@@ -16,7 +16,8 @@
     </span>
 
     <span style="display: inline-block; vertical-align: top; padding: 5px; width:80%">
-      <div id="myDiagramDiv" style="border: solid 1px gray; height: 720px"></div>
+      <div id="myDiagramDiv" style="border: solid 1px gray; height: 500px">
+      </div>
     </span>
   </div>
 
@@ -27,16 +28,18 @@
 <script >
 	var showFlag=true;
 	var isShowFlag=false;
+	var mausx = "0";
+  var mausy = "0";
+  var winx = "0";
+  var winy = "0";
+  var difx = mausx - winx;
+  var dify = mausy - winy;
+  var clicked="Nope.";
 	$(document).ready(function() {
 		init();
 		$("#myPaletteDiv").hide();
 		$("#myPaletteDiv").append("<span id='hideIcon' style='position: absolute;right:0px;z-index: 5;' class='mui-icon mui-icon-closeempty'></span>");
 		$('#myDiagramDiv').click(function(ev){ 
-			var c=$("canvas")[1];
-		var ctx=c.getContext("2d");
-		ctx.moveTo(150,0);
-		ctx.lineTo(150,150);
-		ctx.stroke();
 			 if(!isShowFlag){
 				 if(showFlag){
 					 	var oEvent=ev||event;
@@ -54,11 +57,37 @@
 		
 		var c=$("canvas")[1];
 		var ctx=c.getContext("2d");
-		ctx.moveTo(150,0);
-		ctx.lineTo(150,150);
+		ctx.moveTo(300,0);
+		ctx.lineTo(300,600);
 		ctx.stroke();
 		
+		$("html").mousemove(function(event){
+				mausx = event.pageX;
+		    mausy = event.pageY;
+		    winx = $("#myPaletteDiv").offset().left;
+		    winy = $("#myPaletteDiv").offset().top;
+		     if (clicked == "Nope.") {
+                difx = mausx - winx;
+                dify = mausy - winy;
+            }
+		    var newx = event.pageX - difx - $("#myPaletteDiv").css("marginLeft").replace('px', '');
+		    var newy = event.pageY - dify - $("#myPaletteDiv").css("marginTop").replace('px', '');
+		    $("#myPaletteDiv").css({ top: newy, left: newx });
+		   
+	  })
+		
+		$("#myPaletteDiv").mousedown(function (event) {
+            clicked = "Yeah.";
+        });
+		$("#myDiagramDiv").mouseup(function (event) {
+            clicked = "Nope.";
+        });
+        /*$("#myDiagramDiv").mouseup(function (event) {
+            clicked = "Nope.";
+        });*/
+		
 	})
+	
 	
 	
 	/*window.onload=function(){
@@ -82,13 +111,16 @@
       $(go.Diagram, "myDiagramDiv",  // must name or refer to the DIV HTML element
         {
           initialContentAlignment: go.Spot.Center,
+          _widthFactor: 1,
           allowDrop: true,  // must be true to accept drops from the Palette
+         // "toolManager.panningTool": true,
           "LinkDrawn": showLinkLabel,  // this DiagramEvent listener is defined below
           "LinkRelinked": showLinkLabel,
           "animationManager.duration": 800, // slightly longer than default (600ms) animation
           "undoManager.isEnabled": true // enable undo & redo
-         
+          
         });
+        myDiagram.toolManager.panningTool.isEnabled=false;
     // when the document is modified, add a "*" to the title and enable the "Save" button
  /*   myDiagram.addDiagramListener("Modified", function(e) {
       var button = document.getElementById("SaveButton");
@@ -276,6 +308,11 @@
             { category: "Comment", text: "Comment" }
           ])
         });
+		    /*myPalette.doMouseDown(alert("down"));
+		    myPalette.doMouseUp(function(){
+		    	clicked = "Nope.";
+		    	alert("up");
+		    })*/
   }
   // Make all ports on a node visible when the mouse is over the node
   function showPorts(node, show) {
